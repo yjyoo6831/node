@@ -1,0 +1,31 @@
+<h1><%=title%></h1>
+<div id="books"></div>
+<!--도서목록 템플릿-->
+<script id="temp_books" type="x-handlebars-template">
+    <div class="row"> 
+        {{#each documents}}
+            <div class="col-2 size:10px">
+                <img src={{thumbnail}}>
+                <div class="ellipsis title">{{title}}</div>
+                <div class="price">{{price}}</div>
+            </div>
+        {{/each}}
+    
+ 
+</script>
+
+<script>
+    $.ajax({
+        type:"get",
+        url :"https://dapi.kakao.com/v3/search/book?target=title",
+        dataType:"json",
+        headers:{"Authorization": "KakaoAK 6b2b627551b8f8434b670c1ca6598c30"},
+        data:{"query":"java",size:20},
+        success:function(data){
+            //alert("성공");
+            console.log(data);
+            const temp=Handlebars.compile($("#temp_books").html());
+            $("#books").html(temp(data));
+        }
+    });
+</script>

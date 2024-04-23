@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+*{
+  font-family: "Jua", sans-serif;
+}
+body {
+  .jua-regular {
+    font-family: "Jua", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+}
+
+a {
+  color: #00B7FF;
+  
+}
+
+.div_page{1
+  width:960px;
+  margin:0px auto; /*글자 가운데 정렬*/
+  /* background: green; */
+  color: black;
+}
+.div_top{
+  width:300px; /*글자 가운데 정렬*/
+}
+.div_bottom{
+  text-align: center; /*글자 가운데 정렬*/
+}
+.div_menu .item{  
+  margin:0px 10px; /*두개만 적으면 위아래, 왼오만 적용됨*/
+}
+.div_menu{
+  margin:30px 10px;
+}
+.div_home{
+  margin: 100px 0px ;
+}
+h1{
+  text-align: center;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.title, .price{
+  font-size: 10px;
+  color: green;
+}
