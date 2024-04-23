@@ -22,6 +22,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+app.use('/books',require('./routes/books.js'));
+app.use('/local',require('./routes/local.js'))
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
