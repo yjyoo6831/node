@@ -1,0 +1,113 @@
+<h1>book search menu</h1>
+<div class="row mb-2">
+	<div class="col-8 col-md-4">
+		<form class="input-group" name="frm">
+			<input class="form-control" name="query" value="자바" placeholder="검색어">
+			<button class="btn btn-primary">search</button>
+		</form>
+	</div>
+</div>
+
+
+<!-- <div style="text-align: center;"> -->
+<div id="div_book" class="row"></div>
+<div>
+	<button id="prev" class="btn btn-outline-success">이전</button>
+	<span class="mx-3" id="pn"></span>
+	<button id="next" class="btn btn-outline-success">다음</button>
+</div>
+
+<!--books template-->
+<script id="temp_book" type="X-handlebars-template">
+
+{{#each documents}}
+    <div class="col-lg-2 col-md-4 col-6 mb-2">
+        <div class="card">
+        <div class="card-body">
+            <img src={{check thumbnail}} width="90%" id={{@index}} style="cursor:pointer;">
+        </div>
+        <div class="card-footer">
+            <div class="ellipsis title"> {{title}} </div>
+            <%-include('modal.ejs')%>
+        </div>
+        </div>
+    </div>
+{{/each}}
+</script>
+<!-- 이미지 유무 체크 함수 -->
+<script>
+	Handlebars.registerHelper("check", function (thumbnail) {
+		if (thumbnail) {
+			return thumbnail;
+		} else {
+			return "http://via.placeholder.com/125x175";
+		}
+	})
+</script>
+
+<script>
+	let query = $(frm.query).val();
+	let page = 1;
+	getData();
+
+	//이미지를 클릭한 경우
+	$("#div_book").on("click", "img", function () {
+		const id = $(this).attr("id");
+		$("#modal" + id).modal("show");
+	});
+
+
+	//다음버튼을 클릭한경우
+	$("#next").on("click", function () {
+		page++;
+		getData();
+	});
+	$("#prev").on("click", function () {
+		page--;
+		getData();
+	});
+
+	$(frm).on("submit", function (e) {
+		e.preventDefault();
+		query = $(frm.query).val();
+		if (query == "") {
+			alert("검색어 입력햇!");
+		} else {
+			page = 1;
+			getData();
+
+		}
+	});
+
+	function getData() { //데이터를 가져오는 함수 
+		$.ajax({
+			type: "get",
+			url: "https://dapi.kakao.com/v3/search/book",
+			dataType: "json",
+			data: { query: query, size: 6, page: page },
+			headers: { "Authorization": "KakaoAK 6b2b627551b8f8434b670c1ca6598c30" },
+			success: function (data) {
+				console.log(data);
+				//alert("You nailed it !");
+
+				const temp = Handlebars.compile($("#temp_book").html());
+				$("#div_book").html(temp(data));
+				const last = Math.ceil(data.meta.pageable_count / 6);
+				$("#pn").html(`<b>${page} / ${last}</b>`);
+
+				if (page == 1) {
+					$("#prev").attr("disabled", true);
+				} else {
+					$("#prev").attr("disabled", false);
+				}
+				if (data.meta.is_end) {
+					$("#next").attr("disabled", true);
+				} else {
+					$("#next").attr("disabled", false);
+				}
+
+			} //success 할시 
+		}); //ajax
+	} //function
+
+</script>
