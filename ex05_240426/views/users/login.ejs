@@ -1,0 +1,51 @@
+
+<div class="row my-5 justify-content-center">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="py-2">login</h3>
+            </div>
+            <div class="card-body">
+                <form name="frm">
+                    <input name="uid" placeholder="ID" class="form-control mb-3">
+                    <input name="upass" placeholder="PW" class="form-control mb-3">
+                    <button class="btn btn-primary w-100">login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //input tupe=button
+    $(frm).on("submit",function(e){
+        e.preventDefault();
+        const uid=$(frm.uid).val();
+        const upass=$(frm.upass).val();
+        
+        if(uid==""){
+            alert("id를 입력하세요");
+        }else if(upass==""){
+            alert("password 입력하세요")
+        }else{ //로그인체크
+            $.ajax({
+                type:"post",
+                url:"/users/login",
+                data:{uid:uid, upass:upass},
+                
+                success:function(data){
+                    console.log(data);
+                    if(data.result==0){
+                        alert("아이디 존재하지 않습니다.");
+                    }else if(data.result==2){
+                        alert("비밀번호가 일치하지 않습니다.");
+                    }else{
+                        alert("성공");
+                        sessionStorage.setItem('uid',uid);
+                        
+                        location.href("/");
+                    }
+                } //success function()
+            }); //ajax
+        } //else
+    }); //submit button
+</script>

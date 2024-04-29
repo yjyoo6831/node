@@ -1,0 +1,38 @@
+<h1><%=title%></h1>
+<div class="text-end mb-2" id="buttons">
+    <a href="/posts/update?pid=<%=post.pid%>" class="btn btn-primary btn-sm">
+        
+    </a>
+    <button class="btn btn-danger btn-sm delete">삭제</button>
+</div>
+
+<!--post 변수는 routes/posts.js-->
+
+<div class="card">
+    <div class="card-body">    
+        <div><b>[<%=post.pid%>] <%=post.title%></b></div>
+        <hr>
+        <div><%=post.contents%></div>
+    </div>
+    <div class="card-footer" style="font-size:12px; color:gray">
+        <span>작성자 : <%=post.writer%></span>
+        <span class="ms-3">작성일 : <%=post.fdate%></span>
+    </div>
+</div>
+
+<script>
+    const writer="<%=post.writer%>";
+    if(uid==writer){
+        $("#buttons").show();
+        
+    }else{
+        $("#buttons").hide();
+    }
+    $("#buttons").on("click",".delete",function(){
+        const pid="<%=post.pid%>";
+        if(confirm(`${pid}번 게시글을 삭제하시겠습니까?`)){
+            //삭제작업
+            location.href="/posts/delete?pid=" +pid; //주소창에 이렇게 보임 loca
+        }
+        });
+</script>
