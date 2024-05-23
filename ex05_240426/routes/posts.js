@@ -9,6 +9,7 @@ router.get('/', function (req, res, next) {
 });
 //게시판 목록 데이터 불러오기
 router.get('/list.json', function (req, res) {
+    
     //에러
     const page=req.query.page;
     const size=parseInt(req.query.size);
